@@ -1,12 +1,24 @@
-import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
+import { ArgumentMetadata, BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import * as Joi from 'joi';
 @Injectable()
 export class UsuarioPipe implements PipeTransform{
-  transform(value: any, metadata: ArgumentMetadata){
-    const schema = Joi.object().keys({
-      nombre: Joi.string().alphanum().min(3).max(30).required(),
-      apellido: Joi.string().alphanum().min(3).max(30).required(),
-      edad: Joi.number().integer().greater(0).less(),
-    }).with('username', 'birthyear').without('password', 'access_token');
+  constructor(private readonly _schema){
+
+  }
+  transform(jsonAValidar: any, metadata: ArgumentMetadata){
+    const {
+      error,
+    } = Joi.validate(jsonAValidar, this._schema);
+    if (error){
+      //botar un error
+      throw new BadRequestException(
+        {
+        erorr: error,
+        mensaje: 'Json no valido',
+      });
+    }else {
+      //nada
+      return jsonAValidar;
+    }
   }
 }

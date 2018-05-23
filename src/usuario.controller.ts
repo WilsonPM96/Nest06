@@ -1,6 +1,8 @@
-import {Controller, Get, HttpCode, Post, Req, Res} from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
 import Status = jest.Status;
 import { UsuarioService } from './usuario.service';
+import { UsuarioPipe } from './Pipes/usuario.pipe';
+import { UsuarioEsquema } from './Usuario/usuario.esquema';
 
 // decorator
 @Controller('Usuario')
@@ -27,30 +29,21 @@ export class UsuarioController {
     @Get('mostrarExpress')
     mostrarUsuarioExpress(
         @Req() request,
-        @Res() response
+        @Res() response,
     ) {
         return response
             .status(200)
             .send(this.usuarios);
     }
 
-    @Post('crearUsuario')
-    crearUsuario(
-        @Req() request,
-        @Res() response
-    ) {
-        const nuevoUsuario = {
-            nombre: request.query.nombre,
-            apellido: request.query.apellido,
-            edad: request.query.edad
-        };
+  @Post('crearUsuario')
+  crearUsuario(
+    @Body(new UsuarioPipe(UsuarioEsquema))
+      nuevoUsuario
+  ) {
 
-        const usuarioCreado = this._usuarioService.crearUsuario(nuevoUsuario);
+    const usuarioCreado = this._usuarioService.crearUsuario(nuevoUsuario);
 
-        return response
-            .status(201)
-            .send(nuevoUsuario);
+    return nuevoUsuario;
     }
-
-
 }
