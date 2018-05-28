@@ -1,12 +1,20 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { FotoEntity } from '../Fotos/foto.entity';
+import { ReservasEntity } from '../Reservas/reservas.entity';
 
-@Entity('web_ramos_usuario')
+@Entity('Usuario')
 export class UsuarioEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_usuario: number;
   @Column({length: 50})
   nombre: string;
-  @OneToMany(type => FotoEntity, fotoEntity => fotoEntity.usuario)
-  fotos: FotoEntity[];
+  @Column({length: 30})
+  apellido: string;
+  @Column({length: 3})
+  edad: number;
+  @Column({length: 30})
+  password: string;
+  @Column({length: 30})
+  correo: string;
+  @OneToMany(type => ReservasEntity, reservasEntity => reservasEntity.usuario)
+  reserva: ReservasEntity[];
 }

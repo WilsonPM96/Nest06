@@ -20,4 +20,10 @@ export const UsuarioEsquema = Joi
       .integer()
       .greater(0)
       .less(150),
+    correo: Joi
+      .string()
+      .alphanum()
+      .min(3)
+      .max(30)
+      .required(),
   });
