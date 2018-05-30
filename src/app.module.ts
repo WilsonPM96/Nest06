@@ -9,20 +9,20 @@ import { LogMiddleware } from './log.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioEntity } from './Usuario/usuario.entity';
 import { ReservasEntity } from './Reservas/reservas.entity';
+import { DetallereservaEntity } from './Detalle_Reserva/detalle_reserva.entity';
+import { LugaresEntity } from './Lugares/lugares.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({type: 'mysql',
-      host: 'web2018agr2.mysql.database.azure.com',
-      port: 3306,
-      username: 'profesor@web2018agr2',
-      password: 'Javascript1',
-      database: 'web',
+    TypeOrmModule.forRoot({type: 'mssql',
+      host: 'localhost',
+      port: 1433,
+      username: 'Wilson',
+      password: 'whosyourdaddy1',
+      database: 'Proyecto_Web',
       entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-      synchronize: true,
-      ssl: true,
     }),
-    TypeOrmModule.forFeature([UsuarioEntity, ReservasEntity]),
+    TypeOrmModule.forFeature([UsuarioEntity, ReservasEntity, DetallereservaEntity, LugaresEntity]),
   ],
   controllers: [AppController,
   UsuarioController,
@@ -42,7 +42,5 @@ export class AppModule implements NestModule {
         AppController,
         ParametrosController,
       );
-    //.apply(OtroMiddleware)
-    //.forRoutes(Otras rutas);
   }
 }

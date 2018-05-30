@@ -26,7 +26,7 @@ export class ParametrosController {
   requestResponse(
     @Req() request,
     @Res() response,
-    @Headers() headers
+    @Headers() headers,
   ) {
     const respuesta = {
       baseUrl: request.baseUrl,

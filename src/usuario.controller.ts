@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Guard, HttpCode, Post, ReflectMetadata, Req, Res, UseGuards } from '@nestjs/common';
-import Status = jest.Status;
 import { UsuarioService } from './usuario.service';
 import { UsuarioPipe } from './Pipes/usuario.pipe';
 import { UsuarioEsquema } from './Usuario/usuario.esquema';
@@ -14,7 +13,7 @@ export class UsuarioController {
     usuario = {
         nombre: 'Wilson',
         apellido: 'Ramos',
-        edad: 21
+        edad: 21,
     };
 
     usuarios = [];
@@ -45,7 +44,7 @@ export class UsuarioController {
   @ReflectMetadata('permisos', ['privado'])
   crearUsuario(
     @Body(new UsuarioPipe(UsuarioEsquema))
-      nuevoUsuario
+      nuevoUsuario,
   ) {
 
     const usuarioCreado = this._usuarioService.crearUsuario(nuevoUsuario);
