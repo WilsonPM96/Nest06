@@ -9,6 +9,8 @@ import { LogMiddleware } from './log.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioEntity } from './Usuario/usuario.entity';
 import { FotoEntity } from './Fotos/foto.entity';
+import { JwtService } from './servicios/jwt.service';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
   imports: [
@@ -26,8 +28,8 @@ import { FotoEntity } from './Fotos/foto.entity';
   ],
   controllers: [AppController,
   UsuarioController,
-  ParametrosController],
-  providers: [AppService, UsuarioService],
+  ParametrosController, AuthController],
+  providers: [AppService, UsuarioService, JwtService],
 })
 export class AppModule implements NestModule {
   nombreAplicacion = 'Deber Wilson Ramos EPN';
