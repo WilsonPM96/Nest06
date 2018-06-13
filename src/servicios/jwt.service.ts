@@ -1,19 +1,34 @@
-import { Injectable } from '@nestjs/common';
-import { decode } from 'punycode';
+import {Injectable} from "@nestjs/common";
+
 
 const jwtPaquete = require('jsonwebtoken');
+
 @Injectable()
 export class JwtService {
   private readonly secreto = 'El sol no esta calentando';
   private readonly jwt = jwtPaquete;
-  private readonly tiempoVidaToken = Math.floor(Date.now() / 1000) + (60 * 10);
-  emitirToken(payload: any){
-    return this.jwt.sign({
-      exp: this.tiempoVidaToken,
-      data: payload,
-    }, this.secreto);
+  private readonly tiempoVidaToken = '30s';
+
+  emitirToken(payload: any) {
+    return this.jwt.sign(
+      {
+        payload: payload
+      }
+      ,
+      this.secreto,
+      {
+        expiresIn: this.tiempoVidaToken,
+      });
   }
-  verificarToken(token: string, callback){
-    this.jwt.verify(token, this.secreto, callback);
+
+  verificarToken(token: string, callback) {
+    this.jwt
+      .verify(
+        token,
+        this.secreto,
+        callback);
+
   }
+
+
 }

@@ -14,6 +14,7 @@ export class JwtGuard implements CanActivate {
     : boolean |
     Promise<boolean> |
     Observable<boolean> {
+    this.reflector.get("NecesitaProteccion", context.getHandler())
     const request = context
       .switchToHttp()
       .getRequest();
