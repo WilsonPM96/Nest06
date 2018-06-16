@@ -1,7 +1,7 @@
-import {CanActivate, ExecutionContext, Injectable} from '@nestjs/common';
-import {Observable} from 'rxjs/index';
-import {Reflector} from '@nestjs/core';
-import {JwtService} from '../servicios/jwt.service';
+import {CanActivate, ExecutionContext, Injectable} from "@nestjs/common";
+import {Observable} from "rxjs/index";
+import {Reflector} from "@nestjs/core";
+import {JwtService} from "../servicios/jwt.service";
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -14,27 +14,34 @@ export class JwtGuard implements CanActivate {
     : boolean |
     Promise<boolean> |
     Observable<boolean> {
-    this.reflector.get("NecesitaProteccion", context.getHandler())
-    const request = context
-      .switchToHttp()
-      .getRequest();
-    const jwt = request.headers.authentication;
 
-    if (jwt) {
-      this._jwtService
-        .verificarToken(
-          jwt,
-          (error, data) => {
-            if (error){
-              return true;
-            } else {
-              return false;
-            }
-          }
-        );
+
+    const necesitaProteccion = this.reflector.get(
+      'NecesitaProteccion',
+      context.getHandler());
+
+    console.log('NecesitaProteccion', necesitaProteccion);
+
+    if (necesitaProteccion) {
+
+      const request = context
+        .switchToHttp()
+        .getRequest();
+
+      const jwt = request.headers.auth;
+      console.log('jwt', jwt);
+      if (jwt) {
+        return this._jwtService
+          .verificarTokenSync(
+            jwt
+          );
+
+      } else {
+        return false;
+      }
 
     } else {
-      return false;
+      return true
     }
 
   }
