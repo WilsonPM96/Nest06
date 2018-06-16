@@ -4,11 +4,12 @@ import { UsuarioService } from './usuario.service';
 import { UsuarioPipe } from './Pipes/usuario.pipe';
 import { UsuarioEsquema } from './Usuario/usuario.esquema';
 import { CrearUsuarioGuard } from './Guard/crear-usuario.guard';
+import { JwtGuard } from './Guard/jwt.guard';
 
 // decorator
 @Controller('Usuario')
 
-@UseGuards(CrearUsuarioGuard)
+@UseGuards(CrearUsuarioGuard, JwtGuard)
 
 export class UsuarioController {
     usuario = {
@@ -30,7 +31,7 @@ export class UsuarioController {
         const usuarios = this._usuarioService.mostrarUsuarios();
         return response.send(usuarios);
     }
-
+  @ReflectMetadata('NecesitaProteccion', true)
     @Get('mostrarExpress')
     mostrarUsuarioExpress(
         @Req() request,
