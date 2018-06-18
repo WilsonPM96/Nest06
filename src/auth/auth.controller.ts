@@ -24,18 +24,28 @@ export class AuthController {
         password === '1234') {
 
         const payload = {
-          username: username
+          username: username,
         };
 
         const respuestaToken = {
-          jwt: this._jwtService.emitirToken(payload)
+          jwt: this._jwtService.emitirToken(payload),
         };
+        //leer la cabecera type = JSON O HTML(HTML)
 
-        return respuestaToken;
+        return `
+        <html>
+        <head>
+        <title>Inicio</title>
+</head>
+        <body>
+        <h1>Bienvenido al Sistema</h1>
+        <p>Su token es ${respuestaToken.jwt}</p>
+</body>
+</html>`;
 
       } else {
         throw new BadRequestException({
-          mensaje: 'Credenciales invalidas'
+          mensaje: 'Credenciales invalidas',
         })
       }
 
